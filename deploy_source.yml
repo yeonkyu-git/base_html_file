@@ -3,15 +3,15 @@
   hosts: localhost
   become: yes
 
+  vars:
+    token: "{{ lookup('file', '/home/vagrant/WORK/git-token') }}"
+
   tasks:
-    - name: git add & commit & push
+    - name: git add & commit & push 
       shell: |
-        git add .
-        git commit -m "push"
-        git push -u origin master
-      args:
-        executable: /home/vagrant/WORK/base_html_file
-      delegate_to: localhost
+        git add /home/vagrant/WORK/base_html_file
+        git commit -m "commit with ansible"
+        git push https://{{ token }}@github.com/yeonkyu-git/base_html_file.git
 
 
 - name: Deploy websource Nginx 
@@ -33,7 +33,4 @@
       service:
         name: nginx
         state: restarted
-
-
-
 
