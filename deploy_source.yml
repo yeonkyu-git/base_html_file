@@ -5,6 +5,9 @@
 
   vars:
     token: "{{ lookup('file', '/home/vagrant/WORK/git-token') }}"
+    user: "yeonkyu"
+    email: "yeonkyu@naver.com"
+    commitmsg: "commit with ansible"
 
   tasks:
     - name: print token 
@@ -18,9 +21,9 @@
 
     - name: git commit 
       shell: |
-        git config --global user.name "yeonkyu"
-        git config --global user.email "yeonkyu@naver.com"
-        git commit -m "commit with ansible"
+        git config --global user.name "{{ user }}"
+        git config --global user.email "{{ email }}"
+        git commit -m "{{ commitmsg }}"
       args:
         chdir: /home/vagrant/WORK/base_html_file
 
