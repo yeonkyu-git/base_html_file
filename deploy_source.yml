@@ -9,9 +9,11 @@
   tasks:
     - name: git add & commit & push 
       shell: |
-        git add /home/vagrant/WORK/base_html_file
+        git add .
         git commit -m "commit with ansible"
         git push https://{{ token }}@github.com/yeonkyu-git/base_html_file.git
+      args:
+        executable: /home/vagrant/WORK/base_html_file
 
 
 - name: Deploy websource Nginx 
@@ -33,4 +35,7 @@
       service:
         name: nginx
         state: restarted
+
+
+
 
