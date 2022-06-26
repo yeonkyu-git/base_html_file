@@ -7,13 +7,27 @@
     token: "{{ lookup('file', '/home/vagrant/WORK/git-token') }}"
 
   tasks:
-    - name: git add & commit & push 
-      shell: |
-        git add .
-        git commit -m "commit with ansible"
-        git push https://{{ token }}@github.com/yeonkyu-git/base_html_file.git
+    - name: print token 
+      debug:
+        msg: "{{ token }}"
+      
+    - name: git add 
+      shell: git add .
       args:
-        executable: /home/vagrant/WORK/base_html_file
+        chdir: /home/vagrant/WORK/base_html_file
+
+    - name: git commit 
+      shell: |
+        git config --global user.name "yeonkyu"
+        git config --global user.email "yeonkyu@naver.com"
+        git commit -m "commit with ansible"
+      args:
+        chdir: /home/vagrant/WORK/base_html_file
+
+    - name: git push 
+      shell: git push https://{{ token }}@github.com/yeonkyu-git/base_html_file.git
+      args:
+        chdir: /home/vagrant/WORK/base_html_file
 
 
 - name: Deploy websource Nginx 
@@ -38,4 +52,5 @@
 
 
 
-
+        
+        
