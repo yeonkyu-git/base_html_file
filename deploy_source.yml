@@ -1,0 +1,39 @@
+---
+- name: git push 
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: git add & commit & push
+      shell: |
+        git add .
+        git commit -m "push"
+        git push -u origin master
+      args:
+        executable: /home/vagrant/WORK/base_html_file
+      delegate_to: localhost
+
+
+- name: Deploy websource Nginx 
+  hosts: nodes
+  become: yes
+
+  tasks:
+    - name: delete html directory 
+      file:
+        path: /usr/share/nginx/html
+        state: absent
+
+    - name: git pull 
+      git: 
+        repo: 'https://github.com/yeonkyu-git/base_html_file.git'
+        dest: /usr/share/nginx/html
+    
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+
+
+
